@@ -1,0 +1,2 @@
+- name: Configure Tenant and VRF
+  import_tasks: deploy_tenant.yaml

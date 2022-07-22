@@ -1,0 +1,5 @@
+---
+managed_tenants:
+  rujohns2_dev:
+    description: "Created with Ansible"
+    state: present

@@ -1,0 +1,8 @@
+sbx_apic:
+  hosts:
+    apic:
+      ansible_host: fqdn_or_ip_of_apic
+      ansible_user: admin_user_name
+      ansible_password: admin_password
+      ansible_connection: local
+      validate_certs: no

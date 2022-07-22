@@ -1,0 +1,30 @@
+---
+- name: "Create Tenant ==> {{ tenant_name }}"
+  cisco.aci.aci_tenant:
+    host: "{{ ansible_host }}"
+    username: "{{ ansible_user }}"
+    password: "{{ ansible_password }}"
+    validate_certs: "{{ validate_certs }}"
+    tenant: "{{ tenant_name }}"
+    description: "{{ tenant_desc }}"
+    state: "{{ tenant_state }}"
+  register: output_tenant
+
+# - debug:
+#     var: output_tenant.mo.fvTenant.attributes.name
+
+- name: "Create VRFs in Tenant: {{ output_tenant.mo.fvTenant.attributes.name }}"
+  cisco.aci.aci_vrf:
+    host: "{{ ansible_host }}"
+    username: "{{ ansible_user }}"
+    password: "{{ ansible_password }}"
+    validate_certs: "{{ validate_certs }}"
+    vrf: "{{ vrfs }}"
+    tenant: "{{ output_tenant.mo.fvTenant.attributes.name }}"
+    # description:
+  loop:
+    - private
+    - public
+  loop_control:
+    loop_var: vrfs
+  when: tenant_state == "present"

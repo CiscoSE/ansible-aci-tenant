@@ -1,0 +1,17 @@
+---
+- name: Configure Tenant
+  hosts: all
+  gather_facts: no
+
+  tasks:
+    - name: Tenant Creation
+      ansible.builtin.include_role:
+        name: deploy_base_tenant
+      vars:
+        tenant_name: "{{ tenants.key }}"
+        tenant_desc: "{{ tenants.value.description }}"
+        tenant_state: "{{ tenants.value.state }}"
+      loop: "{{ managed_tenants|dict2items }}"
+      loop_control:
+        loop_var: tenants
+        label: "{{ tenants.key }}"
